@@ -1,8 +1,8 @@
 <?php
 
-namespace Happyr\LinkedIn\Storage;
+namespace Scottybo\LinkedIn2\Storage;
 
-use Happyr\LinkedIn\Exception\InvalidArgumentException;
+use Scottybo\LinkedIn2\Exception\InvalidArgumentException;
 
 /**
  * @author Tobias Nyholm

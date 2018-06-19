@@ -1,6 +1,6 @@
 <?php
 
-namespace Happyr\LinkedIn\Http;
+namespace Scottybo\LinkedIn2\Http;
 
 /**
  * Look in $_REQUEST and $_GET if there is a variable we want.

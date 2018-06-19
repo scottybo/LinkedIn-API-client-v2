@@ -1,9 +1,9 @@
 <?php
 
-namespace Happyr\LinkedIn;
+namespace Scottybo\LinkedIn2;
 
 use GuzzleHttp\Psr7\Response;
-use Happyr\LinkedIn\Exception\LinkedInException;
+use Scottybo\LinkedIn2\Exception\LinkedInException;
 use Mockery as m;
 
 /**
@@ -16,7 +16,7 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
 
     private function getRequestManagerMock()
     {
-        return m::mock('Happyr\LinkedIn\Http\RequestManager');
+        return m::mock('Scottybo\LinkedIn2\Http\RequestManager');
     }
 
     public function testGetLoginUrl()
@@ -30,14 +30,14 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
             'state' => $state,
         ];
 
-        $storage = $this->getMock('Happyr\LinkedIn\Storage\DataStorageInterface');
+        $storage = $this->getMock('Scottybo\LinkedIn2\Storage\DataStorageInterface');
         $storage->method('get')->with('state')->willReturn($state);
 
-        $auth = $this->getMock('Happyr\LinkedIn\Authenticator', ['establishCSRFTokenState', 'getStorage'], [$this->getRequestManagerMock(), self::APP_ID, self::APP_SECRET]);
+        $auth = $this->getMock('Scottybo\LinkedIn2\Authenticator', ['establishCSRFTokenState', 'getStorage'], [$this->getRequestManagerMock(), self::APP_ID, self::APP_SECRET]);
         $auth->expects($this->exactly(2))->method('establishCSRFTokenState')->willReturn(null);
         $auth->method('getStorage')->will($this->returnValue($storage));
 
-        $generator = m::mock('Happyr\LinkedIn\Http\LinkedInUrlGeneratorInterface')
+        $generator = m::mock('Scottybo\LinkedIn2\Http\LinkedInUrlGeneratorInterface')
             ->shouldReceive('getUrl')->once()->with('www', 'oauth/v2/authorization', $params)->andReturn($expected)
             ->getMock();
 
@@ -56,7 +56,7 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
             'scope' => 'foo bar baz',
         ];
 
-        $generator = m::mock('Happyr\LinkedIn\Http\LinkedInUrlGeneratorInterface')
+        $generator = m::mock('Scottybo\LinkedIn2\Http\LinkedInUrlGeneratorInterface')
             ->shouldReceive('getUrl')->once()->with('www', 'oauth/v2/authorization', $params)->andReturn($expected)
             ->getMock();
 
@@ -65,14 +65,14 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchNewAccessToken()
     {
-        $generator = m::mock('Happyr\LinkedIn\Http\UrlGenerator');
+        $generator = m::mock('Scottybo\LinkedIn2\Http\UrlGenerator');
         $code = 'newCode';
-        $storage = m::mock('Happyr\LinkedIn\Storage\DataStorageInterface')
+        $storage = m::mock('Scottybo\LinkedIn2\Storage\DataStorageInterface')
             ->shouldReceive('set')->once()->with('code', $code)
             ->shouldReceive('set')->once()->with('access_token', 'at')
             ->getMock();
 
-        $auth = $this->getMock('Happyr\LinkedIn\Authenticator', ['getCode', 'getStorage', 'getAccessTokenFromCode'], [], '', false);
+        $auth = $this->getMock('Scottybo\LinkedIn2\Authenticator', ['getCode', 'getStorage', 'getAccessTokenFromCode'], [], '', false);
         $auth->expects($this->any())->method('getStorage')->will($this->returnValue($storage));
         $auth->expects($this->once())->method('getAccessTokenFromCode')->with($generator, $code)->will($this->returnValue('at'));
         $auth->expects($this->once())->method('getCode')->will($this->returnValue($code));
@@ -81,17 +81,17 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Happyr\LinkedIn\Exception\LinkedInException
+     * @expectedException \Scottybo\LinkedIn2\Exception\LinkedInException
      */
     public function testFetchNewAccessTokenFail()
     {
-        $generator = m::mock('Happyr\LinkedIn\Http\UrlGenerator');
+        $generator = m::mock('Scottybo\LinkedIn2\Http\UrlGenerator');
         $code = 'newCode';
-        $storage = m::mock('Happyr\LinkedIn\Storage\DataStorageInterface')
+        $storage = m::mock('Scottybo\LinkedIn2\Storage\DataStorageInterface')
             ->shouldReceive('clearAll')->once()
             ->getMock();
 
-        $auth = $this->getMock('Happyr\LinkedIn\Authenticator', ['getCode', 'getStorage', 'getAccessTokenFromCode'], [], '', false);
+        $auth = $this->getMock('Scottybo\LinkedIn2\Authenticator', ['getCode', 'getStorage', 'getAccessTokenFromCode'], [], '', false);
         $auth->expects($this->any())->method('getStorage')->will($this->returnValue($storage));
         $auth->expects($this->once())->method('getAccessTokenFromCode')->with($generator, $code)->willThrowException(new LinkedInException());
         $auth->expects($this->once())->method('getCode')->will($this->returnValue($code));
@@ -101,13 +101,13 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchNewAccessTokenNoCode()
     {
-        $generator = m::mock('Happyr\LinkedIn\Http\UrlGenerator');
-        $storage = m::mock('Happyr\LinkedIn\Storage\DataStorageInterface')
+        $generator = m::mock('Scottybo\LinkedIn2\Http\UrlGenerator');
+        $storage = m::mock('Scottybo\LinkedIn2\Storage\DataStorageInterface')
             ->shouldReceive('get')->with('code')->andReturn('foobar')
             ->shouldReceive('get')->once()->with('access_token')->andReturn('baz')
             ->getMock();
 
-        $auth = $this->getMock('Happyr\LinkedIn\Authenticator', ['getCode', 'getStorage'], [], '', false);
+        $auth = $this->getMock('Scottybo\LinkedIn2\Authenticator', ['getCode', 'getStorage'], [], '', false);
         $auth->expects($this->any())->method('getStorage')->will($this->returnValue($storage));
         $auth->expects($this->once())->method('getCode');
 
@@ -115,54 +115,54 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Happyr\LinkedIn\Exception\LinkedInException
+     * @expectedException \Scottybo\LinkedIn2\Exception\LinkedInException
      */
     public function testGetAccessTokenFromCodeEmptyString()
     {
-        $generator = m::mock('Happyr\LinkedIn\Http\UrlGenerator');
+        $generator = m::mock('Scottybo\LinkedIn2\Http\UrlGenerator');
 
-        $method = new \ReflectionMethod('Happyr\LinkedIn\Authenticator', 'getAccessTokenFromCode');
+        $method = new \ReflectionMethod('Scottybo\LinkedIn2\Authenticator', 'getAccessTokenFromCode');
         $method->setAccessible(true);
-        $auth = $this->getMock('Happyr\LinkedIn\Authenticator', [], [], '', false);
+        $auth = $this->getMock('Scottybo\LinkedIn2\Authenticator', [], [], '', false);
 
         $method->invoke($auth, $generator, '');
     }
 
     /**
-     * @expectedException \Happyr\LinkedIn\Exception\LinkedInException
+     * @expectedException \Scottybo\LinkedIn2\Exception\LinkedInException
      */
     public function testGetAccessTokenFromCodeNull()
     {
-        $generator = m::mock('Happyr\LinkedIn\Http\UrlGenerator');
+        $generator = m::mock('Scottybo\LinkedIn2\Http\UrlGenerator');
 
-        $method = new \ReflectionMethod('Happyr\LinkedIn\Authenticator', 'getAccessTokenFromCode');
+        $method = new \ReflectionMethod('Scottybo\LinkedIn2\Authenticator', 'getAccessTokenFromCode');
         $method->setAccessible(true);
-        $auth = $this->getMock('Happyr\LinkedIn\Authenticator', [], [], '', false);
+        $auth = $this->getMock('Scottybo\LinkedIn2\Authenticator', [], [], '', false);
 
         $method->invoke($auth, $generator, null);
     }
 
     /**
-     * @expectedException \Happyr\LinkedIn\Exception\LinkedInException
+     * @expectedException \Scottybo\LinkedIn2\Exception\LinkedInException
      */
     public function testGetAccessTokenFromCodeFalse()
     {
-        $generator = m::mock('Happyr\LinkedIn\Http\UrlGenerator');
+        $generator = m::mock('Scottybo\LinkedIn2\Http\UrlGenerator');
 
-        $method = new \ReflectionMethod('Happyr\LinkedIn\Authenticator', 'getAccessTokenFromCode');
+        $method = new \ReflectionMethod('Scottybo\LinkedIn2\Authenticator', 'getAccessTokenFromCode');
         $method->setAccessible(true);
-        $auth = $this->getMock('Happyr\LinkedIn\Authenticator', [], [], '', false);
+        $auth = $this->getMock('Scottybo\LinkedIn2\Authenticator', [], [], '', false);
 
         $method->invoke($auth, $generator, false);
     }
 
     public function testGetAccessTokenFromCode()
     {
-        $method = new \ReflectionMethod('Happyr\LinkedIn\Authenticator', 'getAccessTokenFromCode');
+        $method = new \ReflectionMethod('Scottybo\LinkedIn2\Authenticator', 'getAccessTokenFromCode');
         $method->setAccessible(true);
 
         $code = 'code';
-        $generator = m::mock('Happyr\LinkedIn\Http\UrlGenerator')
+        $generator = m::mock('Scottybo\LinkedIn2\Http\UrlGenerator')
             ->shouldReceive('getUrl')->with(
                 'www',
                 'oauth/v2/accessToken'
@@ -176,15 +176,15 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Happyr\LinkedIn\Exception\LinkedInException
+     * @expectedException \Scottybo\LinkedIn2\Exception\LinkedInException
      */
     public function testGetAccessTokenFromCodeNoTokenInResponse()
     {
-        $method = new \ReflectionMethod('Happyr\LinkedIn\Authenticator', 'getAccessTokenFromCode');
+        $method = new \ReflectionMethod('Scottybo\LinkedIn2\Authenticator', 'getAccessTokenFromCode');
         $method->setAccessible(true);
 
         $code = 'code';
-        $generator = m::mock('Happyr\LinkedIn\Http\UrlGenerator')
+        $generator = m::mock('Scottybo\LinkedIn2\Http\UrlGenerator')
             ->shouldReceive('getUrl')->with(
                 'www',
                 'oauth/v2/accessToken'
@@ -197,15 +197,15 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Happyr\LinkedIn\Exception\LinkedInException
+     * @expectedException \Scottybo\LinkedIn2\Exception\LinkedInException
      */
     public function testGetAccessTokenFromCodeEmptyResponse()
     {
-        $method = new \ReflectionMethod('Happyr\LinkedIn\Authenticator', 'getAccessTokenFromCode');
+        $method = new \ReflectionMethod('Scottybo\LinkedIn2\Authenticator', 'getAccessTokenFromCode');
         $method->setAccessible(true);
 
         $code = 'code';
-        $generator = m::mock('Happyr\LinkedIn\Http\UrlGenerator')
+        $generator = m::mock('Scottybo\LinkedIn2\Http\UrlGenerator')
             ->shouldReceive('getUrl')->with(
                 'www',
                 'oauth/v2/accessToken'
@@ -229,11 +229,11 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
         $response = new Response(200, [], json_encode($responseData));
         $currentUrl = 'foobar';
 
-        $storage = m::mock('Happyr\LinkedIn\Storage\DataStorageInterface')
+        $storage = m::mock('Scottybo\LinkedIn2\Storage\DataStorageInterface')
             ->shouldReceive('get')->with('redirect_uri')->andReturn($currentUrl)
             ->getMock();
 
-        $requestManager = m::mock('Happyr\LinkedIn\Http\RequestManager')
+        $requestManager = m::mock('Scottybo\LinkedIn2\Http\RequestManager')
             ->shouldReceive('sendRequest')->once()->with('POST', 'url', [
                 'Content-Type' => 'application/x-www-form-urlencoded',
             ], http_build_query([
@@ -245,7 +245,7 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
             ]))->andReturn($response)
             ->getMock();
 
-        $auth = $this->getMock('Happyr\LinkedIn\Authenticator', ['getStorage'], [$requestManager, self::APP_ID, self::APP_SECRET]);
+        $auth = $this->getMock('Scottybo\LinkedIn2\Authenticator', ['getStorage'], [$requestManager, self::APP_ID, self::APP_SECRET]);
         $auth->expects($this->any())->method('getStorage')->will($this->returnValue($storage));
 
         return $auth;
@@ -253,17 +253,17 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
 
     public function testEstablishCSRFTokenState()
     {
-        $method = new \ReflectionMethod('Happyr\LinkedIn\Authenticator', 'establishCSRFTokenState');
+        $method = new \ReflectionMethod('Scottybo\LinkedIn2\Authenticator', 'establishCSRFTokenState');
         $method->setAccessible(true);
 
-        $storage = m::mock('Happyr\LinkedIn\Storage\DataStorageInterface')
+        $storage = m::mock('Scottybo\LinkedIn2\Storage\DataStorageInterface')
             ->shouldReceive('get')->with('state')->andReturn(null, 'state')
             ->shouldReceive('set')->once()->with('state', \Mockery::on(function (&$param) {
                 return !empty($param);
             }))
             ->getMock();
 
-        $auth = $this->getMock('Happyr\LinkedIn\Authenticator', ['getStorage'], [], '', false);
+        $auth = $this->getMock('Scottybo\LinkedIn2\Authenticator', ['getStorage'], [], '', false);
         $auth->expects($this->any())->method('getStorage')->will($this->returnValue($storage));
 
         // Make sure we only set the state once
@@ -276,26 +276,26 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
         unset($_REQUEST['code']);
         unset($_GET['code']);
 
-        $method = new \ReflectionMethod('Happyr\LinkedIn\Authenticator', 'getCode');
+        $method = new \ReflectionMethod('Scottybo\LinkedIn2\Authenticator', 'getCode');
         $method->setAccessible(true);
-        $auth = $this->getMock('Happyr\LinkedIn\Authenticator', [], [], '', false);
+        $auth = $this->getMock('Scottybo\LinkedIn2\Authenticator', [], [], '', false);
 
         $this->assertNull($method->invoke($auth));
     }
 
     public function testGetCode()
     {
-        $method = new \ReflectionMethod('Happyr\LinkedIn\Authenticator', 'getCode');
+        $method = new \ReflectionMethod('Scottybo\LinkedIn2\Authenticator', 'getCode');
         $method->setAccessible(true);
         $state = 'bazbar';
 
-        $storage = m::mock('Happyr\LinkedIn\Storage\DataStorageInterface')
+        $storage = m::mock('Scottybo\LinkedIn2\Storage\DataStorageInterface')
             ->shouldReceive('clear')->once()->with('state')
             ->shouldReceive('get')->once()->with('code')->andReturn(null)
             ->shouldReceive('get')->once()->with('state')->andReturn($state)
             ->getMock();
 
-        $auth = $this->getMock('Happyr\LinkedIn\Authenticator', ['getStorage'], [], '', false);
+        $auth = $this->getMock('Scottybo\LinkedIn2\Authenticator', ['getStorage'], [], '', false);
         $auth->expects($this->once())->method('getStorage')->will($this->returnValue($storage));
 
         $_REQUEST['code'] = 'foobar';
@@ -305,19 +305,19 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Happyr\LinkedIn\Exception\LinkedInException
+     * @expectedException \Scottybo\LinkedIn2\Exception\LinkedInException
      */
     public function testGetCodeInvalidCode()
     {
-        $method = new \ReflectionMethod('Happyr\LinkedIn\Authenticator', 'getCode');
+        $method = new \ReflectionMethod('Scottybo\LinkedIn2\Authenticator', 'getCode');
         $method->setAccessible(true);
 
-        $storage = m::mock('Happyr\LinkedIn\Storage\DataStorageInterface')
+        $storage = m::mock('Scottybo\LinkedIn2\Storage\DataStorageInterface')
             ->shouldReceive('get')->once()->with('code')->andReturn(null)
             ->shouldReceive('get')->once()->with('state')->andReturn('bazbar')
             ->getMock();
 
-        $auth = $this->getMock('Happyr\LinkedIn\Authenticator', ['getStorage'], [], '', false);
+        $auth = $this->getMock('Scottybo\LinkedIn2\Authenticator', ['getStorage'], [], '', false);
         $auth->expects($this->once())->method('getStorage')->will($this->returnValue($storage));
 
         $_REQUEST['code'] = 'foobar';
@@ -328,14 +328,14 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCodeUsedCode()
     {
-        $method = new \ReflectionMethod('Happyr\LinkedIn\Authenticator', 'getCode');
+        $method = new \ReflectionMethod('Scottybo\LinkedIn2\Authenticator', 'getCode');
         $method->setAccessible(true);
 
-        $storage = m::mock('Happyr\LinkedIn\Storage\DataStorageInterface')
+        $storage = m::mock('Scottybo\LinkedIn2\Storage\DataStorageInterface')
             ->shouldReceive('get')->once()->with('code')->andReturn('foobar')
             ->getMock();
 
-        $auth = $this->getMock('Happyr\LinkedIn\Authenticator', ['getStorage'], [], '', false);
+        $auth = $this->getMock('Scottybo\LinkedIn2\Authenticator', ['getStorage'], [], '', false);
         $auth->expects($this->once())->method('getStorage')->will($this->returnValue($storage));
 
         $_REQUEST['code'] = 'foobar';
@@ -345,15 +345,15 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
 
     public function testStorageAccessors()
     {
-        $method = new \ReflectionMethod('Happyr\LinkedIn\Authenticator', 'getStorage');
+        $method = new \ReflectionMethod('Scottybo\LinkedIn2\Authenticator', 'getStorage');
         $method->setAccessible(true);
         $requestManager = $this->getRequestManagerMock();
         $auth = new Authenticator($requestManager, self::APP_ID, self::APP_SECRET);
 
         // test default
-        $this->assertInstanceOf('Happyr\LinkedIn\Storage\SessionStorage', $method->invoke($auth));
+        $this->assertInstanceOf('Scottybo\LinkedIn2\Storage\SessionStorage', $method->invoke($auth));
 
-        $object = m::mock('Happyr\LinkedIn\Storage\DataStorageInterface');
+        $object = m::mock('Scottybo\LinkedIn2\Storage\DataStorageInterface');
         $auth->setStorage($object);
         $this->assertEquals($object, $method->invoke($auth));
     }

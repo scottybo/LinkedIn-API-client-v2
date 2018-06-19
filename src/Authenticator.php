@@ -1,16 +1,16 @@
 <?php
 
-namespace Happyr\LinkedIn;
+namespace Scottybo\LinkedIn2;
 
-use Happyr\LinkedIn\Exception\LinkedInTransferException;
-use Happyr\LinkedIn\Exception\LinkedInException;
-use Happyr\LinkedIn\Http\GlobalVariableGetter;
-use Happyr\LinkedIn\Http\LinkedInUrlGeneratorInterface;
-use Happyr\LinkedIn\Http\RequestManager;
-use Happyr\LinkedIn\Http\RequestManagerInterface;
-use Happyr\LinkedIn\Http\ResponseConverter;
-use Happyr\LinkedIn\Storage\DataStorageInterface;
-use Happyr\LinkedIn\Storage\SessionStorage;
+use Scottybo\LinkedIn2\Exception\LinkedInTransferException;
+use Scottybo\LinkedIn2\Exception\LinkedInException;
+use Scottybo\LinkedIn2\Http\GlobalVariableGetter;
+use Scottybo\LinkedIn2\Http\LinkedInUrlGeneratorInterface;
+use Scottybo\LinkedIn2\Http\RequestManager;
+use Scottybo\LinkedIn2\Http\RequestManagerInterface;
+use Scottybo\LinkedIn2\Http\ResponseConverter;
+use Scottybo\LinkedIn2\Storage\DataStorageInterface;
+use Scottybo\LinkedIn2\Storage\SessionStorage;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>

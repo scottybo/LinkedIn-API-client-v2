@@ -1,8 +1,8 @@
 <?php
 
-namespace Happyr\LinkedIn\Http;
+namespace Scottybo\LinkedIn2\Http;
 
-use Happyr\LinkedIn\Exception\LinkedInTransferException;
+use Scottybo\LinkedIn2\Exception\LinkedInTransferException;
 use Http\Client\Exception\TransferException;
 use Http\Client\HttpClient;
 use Http\Discovery\HttpClientDiscovery;

@@ -1,14 +1,14 @@
 <?php
 
-namespace Happyr\LinkedIn;
+namespace Scottybo\LinkedIn2;
 
-use Happyr\LinkedIn\Exception\LoginError;
-use Happyr\LinkedIn\Http\GlobalVariableGetter;
-use Happyr\LinkedIn\Http\RequestManager;
-use Happyr\LinkedIn\Http\ResponseConverter;
-use Happyr\LinkedIn\Http\UrlGenerator;
-use Happyr\LinkedIn\Http\UrlGeneratorInterface;
-use Happyr\LinkedIn\Storage\DataStorageInterface;
+use Scottybo\LinkedIn2\Exception\LoginError;
+use Scottybo\LinkedIn2\Http\GlobalVariableGetter;
+use Scottybo\LinkedIn2\Http\RequestManager;
+use Scottybo\LinkedIn2\Http\ResponseConverter;
+use Scottybo\LinkedIn2\Http\UrlGenerator;
+use Scottybo\LinkedIn2\Http\UrlGeneratorInterface;
+use Scottybo\LinkedIn2\Storage\DataStorageInterface;
 use Http\Client\HttpClient;
 use Http\Message\MessageFactory;
 use Psr\Http\Message\ResponseInterface;

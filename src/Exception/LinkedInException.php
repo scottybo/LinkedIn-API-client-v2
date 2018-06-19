@@ -1,6 +1,6 @@
 <?php
 
-namespace Happyr\LinkedIn\Exception;
+namespace Scottybo\LinkedIn2\Exception;
 
 /**
  * This is the base exception of this library.

@@ -1,10 +1,10 @@
 <?php
 
-namespace Happyr\LinkedIn;
+namespace Scottybo\LinkedIn2;
 
-use Happyr\LinkedIn\Exception\LinkedInException;
-use Happyr\LinkedIn\Http\LinkedInUrlGeneratorInterface;
-use Happyr\LinkedIn\Storage\DataStorageInterface;
+use Scottybo\LinkedIn2\Exception\LinkedInException;
+use Scottybo\LinkedIn2\Http\LinkedInUrlGeneratorInterface;
+use Scottybo\LinkedIn2\Storage\DataStorageInterface;
 
 /**
  * This interface is responsible for the authentication process with LinkedIn.

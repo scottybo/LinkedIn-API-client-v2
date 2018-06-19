@@ -1,6 +1,6 @@
 <?php
 
-namespace Happyr\LinkedIn\Storage;
+namespace Scottybo\LinkedIn2\Storage;
 
 /**
  * We need to store data somewhere. It might be in a apc cache, filesystem cache, database or in the session.

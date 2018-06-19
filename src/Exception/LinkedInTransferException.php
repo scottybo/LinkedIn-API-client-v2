@@ -1,6 +1,6 @@
 <?php
 
-namespace Happyr\LinkedIn\Exception;
+namespace Scottybo\LinkedIn2\Exception;
 
 /**
  * An exception with thrown by unexpected result form the remote API.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Happyr\LinkedIn\Storage;
+namespace Scottybo\LinkedIn2\Storage;
 
 use Illuminate\Support\Facades\Session;
 
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Session;
 class IlluminateSessionStorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Happyr\LinkedIn\Storage\SessionStorage storage
+     * @var \Scottybo\LinkedIn2\Storage\SessionStorage storage
      */
     protected $storage;
 
@@ -31,7 +31,7 @@ class IlluminateSessionStorageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Happyr\LinkedIn\Exception\InvalidArgumentException
+     * @expectedException \Scottybo\LinkedIn2\Exception\InvalidArgumentException
      */
     public function testSetFail()
     {
@@ -57,7 +57,7 @@ class IlluminateSessionStorageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Happyr\LinkedIn\Exception\InvalidArgumentException
+     * @expectedException \Scottybo\LinkedIn2\Exception\InvalidArgumentException
      */
     public function testClearFail()
     {

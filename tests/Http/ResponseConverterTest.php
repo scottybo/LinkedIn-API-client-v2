@@ -1,6 +1,6 @@
 <?php
 
-namespace Happyr\LinkedIn\Http;
+namespace Scottybo\LinkedIn2\Http;
 
 use GuzzleHttp\Psr7\Response;
 
@@ -36,7 +36,7 @@ class ResponseConverterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Happyr\LinkedIn\Exception\InvalidArgumentException
+     * @expectedException \Scottybo\LinkedIn2\Exception\InvalidArgumentException
      */
     public function testConvertJsonToSimpleXml()
     {
@@ -47,7 +47,7 @@ class ResponseConverterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Happyr\LinkedIn\Exception\InvalidArgumentException
+     * @expectedException \Scottybo\LinkedIn2\Exception\InvalidArgumentException
      */
     public function testConvertXmlToArray()
     {
@@ -63,7 +63,7 @@ class ResponseConverterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Happyr\LinkedIn\Exception\InvalidArgumentException
+     * @expectedException \Scottybo\LinkedIn2\Exception\InvalidArgumentException
      */
     public function testConvertJsonToFoobar()
     {
@@ -90,7 +90,7 @@ class ResponseConverterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Happyr\LinkedIn\Exception\LinkedInTransferException
+     * @expectedException \Scottybo\LinkedIn2\Exception\LinkedInTransferException
      */
     public function testConvertToSimpleXmlError()
     {

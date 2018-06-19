@@ -1,6 +1,6 @@
 <?php
 
-namespace Happyr\LinkedIn\Storage;
+namespace Scottybo\LinkedIn2\Storage;
 
 /**
  * Store data in the global session.

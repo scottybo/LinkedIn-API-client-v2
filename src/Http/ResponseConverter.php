@@ -1,9 +1,9 @@
 <?php
 
-namespace Happyr\LinkedIn\Http;
+namespace Scottybo\LinkedIn2\Http;
 
-use Happyr\LinkedIn\Exception\InvalidArgumentException;
-use Happyr\LinkedIn\Exception\LinkedInTransferException;
+use Scottybo\LinkedIn2\Exception\InvalidArgumentException;
+use Scottybo\LinkedIn2\Exception\LinkedInTransferException;
 use Psr\Http\Message\ResponseInterface;
 
 class ResponseConverter

@@ -1,6 +1,6 @@
 <?php
 
-namespace Happyr\LinkedIn\Http;
+namespace Scottybo\LinkedIn2\Http;
 
 /**
  * Class UrlGeneratorTest.
@@ -88,7 +88,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCurrentURL()
     {
-        $gen = $this->getMock('Happyr\LinkedIn\Http\UrlGenerator', ['getHttpProtocol', 'getHttpHost', 'dropLinkedInParams'], []);
+        $gen = $this->getMock('Scottybo\LinkedIn2\Http\UrlGenerator', ['getHttpProtocol', 'getHttpHost', 'dropLinkedInParams'], []);
         $gen->expects($this->any())->method('getHttpProtocol')->will($this->returnValue('http'));
         $gen->expects($this->any())->method('getHttpHost')->will($this->returnValue('www.test.com'));
         $gen->expects($this->any())->method('dropLinkedInParams')->will($this->returnCallback(function ($arg) {
@@ -122,7 +122,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCurrentURLPort80()
     {
-        $gen = $this->getMock('Happyr\LinkedIn\Http\UrlGenerator', ['getHttpProtocol', 'getHttpHost', 'dropLinkedInParams'], []);
+        $gen = $this->getMock('Scottybo\LinkedIn2\Http\UrlGenerator', ['getHttpProtocol', 'getHttpHost', 'dropLinkedInParams'], []);
         $gen->expects($this->any())->method('getHttpProtocol')->will($this->returnValue('http'));
         $gen->expects($this->any())->method('getHttpHost')->will($this->returnValue('www.test.com:80'));
         $gen->expects($this->any())->method('dropLinkedInParams')->will($this->returnCallback(function ($arg) {
@@ -140,7 +140,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCurrentURLPort8080()
     {
-        $gen = $this->getMock('Happyr\LinkedIn\Http\UrlGenerator', ['getHttpProtocol', 'getHttpHost', 'dropLinkedInParams'], []);
+        $gen = $this->getMock('Scottybo\LinkedIn2\Http\UrlGenerator', ['getHttpProtocol', 'getHttpHost', 'dropLinkedInParams'], []);
         $gen->expects($this->any())->method('getHttpProtocol')->will($this->returnValue('http'));
         $gen->expects($this->any())->method('getHttpHost')->will($this->returnValue('www.test.com:8080'));
         $gen->expects($this->any())->method('dropLinkedInParams')->will($this->returnCallback(function ($arg) {
