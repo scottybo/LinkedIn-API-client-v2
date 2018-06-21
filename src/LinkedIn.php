@@ -110,10 +110,7 @@ class LinkedIn implements LinkedInInterface
         // Add access token to the headers
         $options['headers']['Authorization'] = sprintf('Bearer %s', (string) $this->getAccessToken());
 
-        // Do logic and adjustments to the options
-        $requestFormat = $this->filterRequestOption($options);
-
-        // Generate an url
+        // Generate the url
         $url = $this->getUrlGenerator()->getUrl(
             'api',
             $resource,
@@ -122,15 +119,26 @@ class LinkedIn implements LinkedInInterface
 
         $body = isset($options['body']) ? $options['body'] : null;
         $this->lastResponse = $this->getRequestManager()->sendRequest($method, $url, $options['headers'], $body);
-
-        //Get the response data format
-        if (isset($options['response_data_type'])) {
-            $responseDataType = $options['response_data_type'];
-        } else {
-            $responseDataType = $this->getResponseDataType();
-        }
-
-        return ResponseConverter::convert($this->lastResponse, $requestFormat, $responseDataType);
+        
+        // v2 always returns json, so let's convert it to an array
+        return ResponseConverter::convert($this->lastResponse, 'json', 'array');
+    }
+    
+    /**
+     * Get a LinkedIn URN and return its parts as an array
+     * 
+     * @param string $string
+     * 
+     * @return array
+     */
+    public function deconstructURN($string) {
+        $parts = explode(':',$string);
+        
+        return [
+            'namespace' => $parts[1],
+            'entityType' => $parts[2],
+            'id' => $parts[3],
+        ];
     }
 
     /**
