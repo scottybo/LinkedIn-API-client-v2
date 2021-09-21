@@ -217,6 +217,19 @@ class LinkedIn implements LinkedInInterface
     }
 
     /**
+     * See docs for LinkedIn::api().
+     *
+     * @param string $resource
+     * @param array  $options
+     *
+     * @return mixed
+     */
+    public function delete($resource, array $options = [])
+    {
+        return $this->api('DELETE', $resource, $options);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function clearStorage()
